@@ -34,6 +34,9 @@ function App() {
         {user && <Logout />}
       </header>
       <section>{user ? <ChatRoom /> : <Login />}</section>
+      <footer>
+        Made with ❤️ by Shivam Mahajan
+      </footer>
     </div>
   );
 }
@@ -82,9 +85,12 @@ function ChatRoom() {
   //Listens to any update to the data in firebase
   //Returns array of objects where each object is a message in db
   const [messages] = useCollectionData(query, { idField: "id" });
-  console.log(messages);
   //set state
   const [formValue, setFormValue] = useState("");
+  const [load, setLoad] = useState(false);
+  useEffect(() => {
+    dummy.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const sendMessage = async (e) => {
     //prevent refersh on submit
@@ -115,7 +121,7 @@ function ChatRoom() {
       </main>
       <form onSubmit={sendMessage}>
         <input
-          autoFocus
+          placeholder="Enter your message."
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
@@ -133,12 +139,7 @@ function ChatMessage(props) {
   return (
     <>
       <div className={`message ${messageClass}`}>
-        <img
-          src={
-            photoURL
-          }
-          alt="Profile"
-        />
+        <img src={photoURL} alt="Profile" />
         <p>{text}</p>
       </div>
     </>

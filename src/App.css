@@ -3,6 +3,7 @@
   --color1: #141e61;
   --color2: #787a91;
   --color3: #eeeeee;
+  --color4: #eeeeeeb5;
   --colorbtn: #dc3545;
   --font: "Inter", sans-serif;
 }
@@ -172,6 +173,10 @@ form > input {
   color: var(--color3);
 }
 
+form > input::placeholder{
+  color: var(--color4);
+}
+
 form > button {
   outline: none;
   border: 0px none;
@@ -190,6 +195,17 @@ form > button:disabled {
   cursor: not-allowed;
 }
 
+
 .icon {
   margin-right: 4px;
+}
+
+footer{
+  background-color: var(--main-color);
+  color: var(--color2);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2px;
 }
