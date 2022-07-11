@@ -1,38 +1,195 @@
+:root {
+  --main-color: #0f044c;
+  --color1: #141e61;
+  --color2: #787a91;
+  --color3: #eeeeee;
+  --colorbtn: #dc3545;
+  --font: "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: var(--main-color);
+}
+
 .App {
-  text-align: center;
+  padding: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+  height: 100vh;
+  width: min(100vw, 800px);
+  background: var(--color3);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App > header {
+  position: relative;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0 12px;
+  background-color: var(--color1);
+  color: var(--color3);
+  text-transform: uppercase;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.login,
+.logout {
+  padding: 12px;
+  font-size: 1.25em;
+  font-family: var(--font);
+  outline: none;
+  border: none;
+  background-color: var(--colorbtn);
+  color: var(--color3);
+  border-radius: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login:hover,
+.logout:hover {
+  cursor: pointer;
+}
+
+main {
+  padding: 10px;
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
+  scroll-behavior: smooth;
+}
+
+main::-webkit-scrollbar {
+  width: 0.25rem;
+}
+
+main::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+main::-webkit-scrollbar-thumb {
+  background: #6649b8;
+}
+
+.message {
+  display: flex;
   align-items: center;
+  font-size: 1.5em;
+}
+
+.message > img {
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  margin: 15px;
+}
+
+.sent {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.received {
+  align-self: flex-start;
+  flex-direction: row;
+}
+
+p {
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.sent p {
+  background-color: var(--colorbtn);
+  color: var(--color3);
+}
+
+.received p {
+  background-color: var(--color1);
+  color: var(--color3);
+}
+
+section {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
-.App-link {
-  color: #61dafb;
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  padding: 0;
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+form {
+  padding: 0;
+  position: relative;
+  bottom: 0;
+  display: grid;
+  grid-template-columns: 1.75fr 0.25fr;
+  width: 100%;
+  margin: 0;
+  margin-top: 2px;
+}
+
+form > input {
+  outline: none;
+  border: 0px none;
+  background: var(--color1);
+  margin: 0;
+  padding: 8px 12px;
+  text-align: left;
+  font-family: var(--font);
+  font-size: 1.25em;
+  caret-color: var(--color3);
+  color: var(--color3);
+}
+
+form > button {
+  outline: none;
+  border: 0px none;
+  background: var(--color2);
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 1.25em;
+}
+
+form > button:hover {
+  cursor: pointer;
+}
+
+form > button:disabled {
+  opacity: 85%;
+  cursor: not-allowed;
+}
+
+.icon {
+  margin-right: 4px;
 }
