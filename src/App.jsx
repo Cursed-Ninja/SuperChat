@@ -34,9 +34,7 @@ function App() {
         {user && <Logout />}
       </header>
       <section>{user ? <ChatRoom /> : <Login />}</section>
-      <footer>
-        Made with ❤️ by Shivam Mahajan
-      </footer>
+      <footer>Made with ❤️ by Shivam Mahajan</footer>
     </div>
   );
 }
@@ -115,8 +113,9 @@ function ChatRoom() {
     <>
       <main>
         {messages &&
-          messages.reverse() &&
-          messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          messages
+            .map((msg) => <ChatMessage key={msg.id} message={msg} />)
+            .reverse()}
         <div ref={dummy}></div>
       </main>
       <form onSubmit={sendMessage}>
