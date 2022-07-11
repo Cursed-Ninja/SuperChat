@@ -209,3 +209,9 @@ footer{
   align-items: center;
   padding: 2px;
 }
+
+.bottom{
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+}

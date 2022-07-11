@@ -34,7 +34,6 @@ function App() {
         {user && <Logout />}
       </header>
       <section>{user ? <ChatRoom /> : <Login />}</section>
-      <footer>Made with ❤️ by Shivam Mahajan</footer>
     </div>
   );
 }
@@ -118,16 +117,19 @@ function ChatRoom() {
             .reverse()}
         <div ref={dummy}></div>
       </main>
-      <form onSubmit={sendMessage}>
-        <input
-          placeholder="Enter your message."
-          value={formValue}
-          onChange={(e) => setFormValue(e.target.value)}
-        />
-        <button disabled={!formValue} type="submit">
-          📩
-        </button>
-      </form>
+      <div className="bottom">
+        <form onSubmit={sendMessage}>
+          <input
+            placeholder="Enter your message."
+            value={formValue}
+            onChange={(e) => setFormValue(e.target.value)}
+          />
+          <button disabled={!formValue} type="submit">
+            📩
+          </button>
+        </form>
+        <footer>Made with ❤️ by Shivam Mahajan</footer>
+      </div>
     </>
   );
 }
