@@ -39,12 +39,12 @@ body {
 }
 
 .App > header {
-  position: relative;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: min(100vw, 800px);
   padding: 0 12px;
   background-color: var(--color1);
   color: var(--color3);
@@ -173,7 +173,7 @@ form > input {
   color: var(--color3);
 }
 
-form > input::placeholder{
+form > input::placeholder {
   color: var(--color4);
 }
 
@@ -195,12 +195,11 @@ form > button:disabled {
   cursor: not-allowed;
 }
 
-
 .icon {
   margin-right: 4px;
 }
 
-footer{
+footer {
   background-color: var(--main-color);
   color: var(--color2);
   width: 100%;
@@ -210,7 +209,7 @@ footer{
   padding: 2px;
 }
 
-.bottom{
+.bottom {
   width: 100%;
   position: sticky;
   bottom: 0;
