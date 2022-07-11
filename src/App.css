@@ -76,6 +76,7 @@ main {
   display: flex;
   flex-direction: column;
   scroll-behavior: smooth;
+  margin-bottom: calc(4px + 1em + 16px + 2em);
 }
 
 main::-webkit-scrollbar {
@@ -151,13 +152,12 @@ section {
 
 form {
   padding: 0;
-  position: relative;
-  bottom: 0;
   display: grid;
   grid-template-columns: 1.75fr 0.25fr;
-  width: 100%;
+  width: min(100vw, 800px);
   margin: 0;
-  margin-top: 2px;
+  position: fixed;
+  bottom: calc(10px + 1em);
 }
 
 form > input {
@@ -207,10 +207,7 @@ footer {
   justify-content: center;
   align-items: center;
   padding: 2px;
-}
-
-.bottom {
-  width: 100%;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  font-size: 1em;
 }
