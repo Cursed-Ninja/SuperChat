@@ -49,7 +49,7 @@ function App() {
         <h1>SuperChat App</h1>
         {user && <Logout darkMode={darkMode} />}
       </header>
-      <section>
+      <section className={darkMode ? "dark" : ""}>
         {user ? (
           <ChatRoom darkMode={darkMode} />
         ) : (

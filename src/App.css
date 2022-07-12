@@ -5,7 +5,7 @@
   --color4: #34b3f1;
   --dark-color1: #2c3639;
   --dark-color2: #393e46;
-  --dark-color3: #EEEEEE;
+  --dark-color3: #eeeeee;
   --dark-color4: #ffd369;
   --font: "Inter", sans-serif;
 }
@@ -30,6 +30,11 @@ body {
   padding: 0;
   margin: 0;
   height: 100vh;
+  transition: background 0.2s ease-in-out;
+}
+
+.App.dark {
+  background-color: var(--dark-color1);
 }
 
 .App > header {
@@ -75,7 +80,7 @@ body {
   border: 2px solid black;
 }
 
-.dark-mode.active{
+.dark-mode.active {
   color: var(--color2);
 }
 
@@ -113,6 +118,11 @@ section {
   margin: 0;
   height: 100%;
   margin: 25px 0px;
+  transition: background 0.2s ease-in-out;
+}
+
+section.dark {
+  background: var(--dark-color1);
 }
 
 .login {
@@ -124,6 +134,15 @@ section {
   outline: none;
   color: var(--color3);
   transition: background 0.2s ease-in-out;
+}
+
+.login.dark{
+  background-color: var(--dark-color4);
+  color: var(--dark-color2);
+}
+
+.login.dark:hover{
+  color: var(--color3);
 }
 
 .login:hover {
@@ -246,7 +265,7 @@ form > input ::placeholder {
   cursor: not-allowed;
 }
 
-.btn-submit.dark:disabled{
+.btn-submit.dark:disabled {
   background-color: #c2bebead;
 }
 
