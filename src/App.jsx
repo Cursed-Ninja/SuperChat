@@ -5,12 +5,16 @@ import "firebase/compat/auth";
 import "firebase/compat/firestore";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle, faWindows } from "@fortawesome/free-brands-svg-icons";
+import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { faSignOut } from "@fortawesome/free-solid-svg-icons";
+import { faMoon } from "@fortawesome/free-solid-svg-icons";
+import { faSun } from "@fortawesome/free-solid-svg-icons";
 
 import { useEffect, useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+
+import ReactIcon from "./images/React-icon.png";
 
 firebase.initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -27,19 +31,36 @@ const firestore = firebase.firestore();
 
 function App() {
   const [user] = useAuthState(auth);
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
-    <div className="App">
-      <header>
+    <div className={`App ${darkMode ? "dark" : ""}`}>
+      <header className={darkMode ? "dark" : ""}>
+        <button
+          onClick={() => setDarkMode((prevDarkMode) => !prevDarkMode)}
+          className={`dark-mode ${darkMode ? "active" : ""}`}
+        >
+          {darkMode ? (
+            <FontAwesomeIcon icon={faSun} />
+          ) : (
+            <FontAwesomeIcon icon={faMoon} />
+          )}
+        </button>
         <h1>SuperChat App</h1>
-        {user && <Logout />}
+        {user && <Logout darkMode={darkMode} />}
       </header>
-      <section>{user ? <ChatRoom /> : <Login />}</section>
-      <footer>Made with ❤️ by Shivam Mahajan</footer>
+      <section>
+        {user ? (
+          <ChatRoom darkMode={darkMode} />
+        ) : (
+          <Login darkMode={darkMode} />
+        )}
+      </section>
     </div>
   );
 }
 
-function Login() {
+function Login(props) {
   const signInWithGoogle = () => {
     //automatically signs in with google
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -48,14 +69,17 @@ function Login() {
     auth.signInWithPopup(provider);
   };
   return (
-    <button className="login" onClick={signInWithGoogle}>
+    <button
+      className={`login ${props.darkMode ? "dark" : ""}`}
+      onClick={signInWithGoogle}
+    >
       <FontAwesomeIcon icon={faGoogle} className="icon" /> Sign in with{" "}
       <b>Google</b>
     </button>
   );
 }
 
-function Logout() {
+function Logout(props) {
   // If user present then sign out
   const [winSize, setWinSize] = useState(window.innerWidth);
   useEffect(() => {
@@ -65,14 +89,17 @@ function Logout() {
   }, [winSize]);
   return (
     auth.currentUser && (
-      <button className="logout" onClick={() => auth.signOut()}>
-        {winSize > 400 ? "Sign Out" : <FontAwesomeIcon icon={faSignOut} />}
+      <button
+        className={`logout ${props.darkMode ? "dark" : ""}`}
+        onClick={() => auth.signOut()}
+      >
+        {winSize > 500 ? "Sign Out" : <FontAwesomeIcon icon={faSignOut} />}
       </button>
     )
   );
 }
 
-function ChatRoom() {
+function ChatRoom(props) {
   const dummy = useRef();
   //refers to the messages in firebase
   const messagesRef = firestore.collection("messages");
@@ -85,7 +112,6 @@ function ChatRoom() {
   const [messages] = useCollectionData(query, { idField: "id" });
   //set state
   const [formValue, setFormValue] = useState("");
-  const [load, setLoad] = useState(false);
   useEffect(() => {
     dummy.current.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -109,37 +135,55 @@ function ChatRoom() {
   };
 
   return (
-    // <div className="form-container">
     <>
-      <main>
+      <main className={props.darkMode ? "dark" : ""}>
         {messages &&
           messages
-            .map((msg) => <ChatMessage key={msg.id} message={msg} />)
+            .map((msg) => (
+              <ChatMessage
+                key={msg.id}
+                message={msg}
+                darkMode={props.darkMode}
+              />
+            ))
             .reverse()}
         <div ref={dummy}></div>
       </main>
       <form onSubmit={sendMessage}>
         <input
+          className={`${props.darkMode ? "dark" : ""}`}
           type="text"
           placeholder="Enter your message."
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
         />
-        <button disabled={!formValue} type="submit">
+        <button
+          disabled={!formValue}
+          type="submit"
+          className={`btn-submit ${props.darkMode ? "dark" : ""}`}
+        >
           📩
         </button>
+        <footer className={props.darkMode ? "dark" : ""}>
+          Made with ❤️ by Shivam Mahajan
+        </footer>
       </form>
     </>
   );
 }
 
 function ChatMessage(props) {
-  const { text, uid, photoURL } = props.message;
+  const { text, uid } = props.message;
+  let photoURL = props.message.photoURL;
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
+  const addDefaultSrc = (ev) => (ev.target.src = ReactIcon);
+  if (photoURL === undefined) photoURL = ReactIcon;
   return (
     <>
-      <div className={`message ${messageClass}`}>
-        <img src={photoURL} alt="Profile" />
+      <div
+        className={`message ${messageClass} ${props.darkMode ? "dark" : ""}`}
+      >
+        <img src={photoURL} alt="Profile" onError={addDefaultSrc} />
         <p>{text}</p>
       </div>
     </>
