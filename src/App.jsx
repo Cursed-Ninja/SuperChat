@@ -31,7 +31,7 @@ const firestore = firebase.firestore();
 
 function App() {
   const [user] = useAuthState(auth);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   return (
     <div className={`App ${darkMode ? "dark" : ""}`}>
