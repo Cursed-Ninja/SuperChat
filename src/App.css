@@ -136,12 +136,12 @@ section.dark {
   transition: background 0.2s ease-in-out;
 }
 
-.login.dark{
+.login.dark {
   background-color: var(--dark-color4);
   color: var(--dark-color2);
 }
 
-.login.dark:hover{
+.login.dark:hover {
   color: var(--color3);
 }
 
@@ -178,7 +178,7 @@ main {
 }
 
 p {
-  max-width: 500px;
+  max-width: min(500px, 80vw);
   margin-bottom: 12px;
   line-height: 24px;
   padding: 10px 20px;
@@ -186,6 +186,7 @@ p {
   position: relative;
   color: white;
   text-align: center;
+  word-wrap: break-word;
 }
 
 .message {
