@@ -130,16 +130,26 @@ function DisplayRooms(props) {
 
   const publicRoomsList = publicRooms.map((room, index) => {
     return (
-      <Room room={room} roomId={publicRoomIDs[index]} key={`public-${index}`} />
+      <Room
+        darkMode={props.darkMode}
+        room={room}
+        roomId={publicRoomIDs[index]}
+        key={`public-${index}`}
+        setRoomPresent={setRoomPresent}
+        setRoomRef={setRoomRef}
+      />
     );
   });
 
   const privateRoomsList = privateRooms.map((room, index) => {
     return (
       <Room
+        darkMode={props.darkMode}
         room={room}
         roomId={privateRoomIDs[index]}
         key={`private-${index}`}
+        setRoomPresent={setRoomPresent}
+        setRoomRef={setRoomRef}
       />
     );
   });
@@ -148,17 +158,23 @@ function DisplayRooms(props) {
     <>
       {!roomPresent ? (
         <div className="wrapper">
-          <div className="show--public--rooms">
-            <h2>Public Rooms</h2>
-            <div className="rooms">{publicRoomsList}</div>
+          <div className="rooms--wrapper">
+            <div className={`show--rooms ${props.darkMode ? "dark" : ""}`}>
+              <h2>Public Rooms</h2>
+              <div className={`rooms ${props.darkMode ? "dark" : ""}`}>
+                {publicRoomsList}
+              </div>
+            </div>
+            <div className={`show--rooms ${props.darkMode ? "dark" : ""}`}>
+              <h2>Private Rooms</h2>
+              <div className={`rooms ${props.darkMode ? "dark" : ""}`}>
+                {privateRoomsList}
+              </div>
+            </div>
           </div>
-          <div className="show--private--rooms">
-            <h2>Private Rooms</h2>
-            <div className="rooms">{privateRoomsList}</div>
-          </div>
-          <div className="create--room">
-            <fieldset>
-              <legend>Room Type</legend>
+          <div className="create-find-room">
+            <fieldset className={`${props.darkMode ? "dark" : ""}`}>
+              <legend>Create Room Type</legend>
               <input
                 type="radio"
                 id="public"
@@ -182,38 +198,78 @@ function DisplayRooms(props) {
               />
               <label htmlFor="private">Private</label>
             </fieldset>
+            <div className="input--text--wrapper">
+              <input
+                className={`search ${props.darkMode ? "dark" : ""}`}
+                type="text"
+                placeholder="Create a room"
+                value={roomName}
+                maxLength="10"
+                onChange={(e) => {
+                  setRoomName(e.target.value);
+                }}
+                onKeyDown={async (e) => {
+                  if (e.key === "Enter") {
+                    if (roomName.length === 0)
+                      alert("Please enter a room name");
+                    else {
+                      const Ref = await roomsRef.add({
+                        name: roomName,
+                        createdBy: auth.currentUser.uid,
+                        isPrivate: privateRoom,
+                      });
 
-            <input
-              type="text"
-              placeholder="Create a room"
-              value={roomName}
-              onChange={(e) => {
-                setRoomName(e.target.value);
-              }}
-              onKeyDown={async (e) => {
-                if (e.key === "Enter") {
-                  const Ref = await roomsRef.add({
-                    name: roomName,
-                    createdBy: auth.currentUser.uid,
-                    isPrivate: privateRoom,
-                  });
+                      setRoomRef(Ref);
+                      setRoomPresent(true);
+                      setRoomName("");
+                    }
+                  }
+                }}
+              />
+              <button
+                className={`${props.darkMode ? "dark" : ""} search--btn`}
+                onClick={async (e) => {
+                  if (roomName.length === 0) alert("Please enter a room name");
+                  else {
+                    const Ref = await roomsRef.add({
+                      name: roomName,
+                      createdBy: auth.currentUser.uid,
+                      isPrivate: privateRoom,
+                    });
 
-                  setRoomRef(Ref);
-                  setRoomPresent(true);
-                  setRoomName("");
-                }
-              }}
-            />
-
-            <input
-              type="text"
-              placeholder="Enter room ID"
-              value={roomID}
-              onChange={(e) => {
-                setRoomID(e.target.value);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                    setRoomRef(Ref);
+                    setRoomPresent(true);
+                    setRoomName("");
+                  }
+                }}
+              >
+                🔍
+              </button>
+            </div>
+            <div className="input--text--wrapper">
+              <input
+                className={`search ${props.darkMode ? "dark" : ""}`}
+                type="text"
+                placeholder="Enter room ID"
+                value={roomID}
+                onChange={(e) => {
+                  setRoomID(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    if (
+                      privateRoomIDs.includes(roomID) ||
+                      publicRoomIDs.includes(roomID)
+                    ) {
+                      setRoomRef({ id: roomID });
+                      setRoomPresent(true);
+                    } else alert("Room not present");
+                  }
+                }}
+              />
+              <button
+                className={`${props.darkMode ? "dark" : ""} search--btn`}
+                onClick={() => {
                   if (
                     privateRoomIDs.includes(roomID) ||
                     publicRoomIDs.includes(roomID)
@@ -221,9 +277,11 @@ function DisplayRooms(props) {
                     setRoomRef({ id: roomID });
                     setRoomPresent(true);
                   } else alert("Room not present");
-                }
-              }}
-            />
+                }}
+              >
+                🔍
+              </button>
+            </div>
           </div>
         </div>
       ) : (
@@ -235,8 +293,17 @@ function DisplayRooms(props) {
 
 function Room(props) {
   return (
-    <div className="room">
-      {props.room.name} {props.roomId}
+    <div className={`room ${props.darkMode ? "dark" : ""}`}>
+      <span>{props.room.name}</span> <span>{props.roomId}</span>
+      <button
+        className={`open--btn ${props.darkMode ? "dark" : ""}`}
+        onClick={() => {
+          props.setRoomRef({ id: props.roomId });
+          props.setRoomPresent(true);
+        }}
+      >
+        Open
+      </button>
     </div>
   );
 }
@@ -250,7 +317,7 @@ function ChatRoom(props) {
 
   //Listens to any update to the data in firebase
   //Returns array of objects where each object is a message in db
-  const [messages] = useCollectionData(query, { idField: "id" });
+  const [messages] = useCollectionData(query);
   //set state
   const [formValue, setFormValue] = useState("");
   useEffect(() => {

@@ -23,13 +23,9 @@ body {
 
 .App {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
   padding: 0;
   margin: 0;
-  height: 100vh;
+  min-height: 100vh;
   transition: background 0.2s ease-in-out;
 }
 
@@ -38,7 +34,7 @@ body {
 }
 
 .App > header {
-  position: fixed;
+  position: sticky;
   top: 0;
   margin: 0;
   width: 100%;
@@ -98,14 +94,16 @@ body {
   transition: color 0.2s ease-in-out;
 }
 
-.logout:hover {
+.logout:hover,
+.open--btn:hover {
   cursor: pointer;
   background-color: var(--color1);
 }
 
-.logout.dark:hover {
-  background-color: var(--dark-color4);
-  color: var(--dark-color2);
+.logout.dark:hover,
+.open--btn.dark:hover {
+  background-color: var(--dark-color4) !important;
+  color: var(--dark-color2) !important;
 }
 
 section {
@@ -134,6 +132,7 @@ section.dark {
   outline: none;
   color: var(--color3);
   transition: background 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
 }
 
 .login.dark {
@@ -154,9 +153,166 @@ section.dark {
   margin-right: 4px;
 }
 
-.wrapper{
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+.wrapper {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rooms--wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.show--rooms {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: var(--color4);
+  transition: color 0.2s ease-in-out;
+  width: 50%;
+}
+
+.show--rooms > h2 {
+  text-align: center;
+  font-family: var(--font);
+  color: var(--color2);
+}
+
+.rooms {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  overflow: auto;
+  gap: 15px;
+  max-height: 250px;
+  width: 40vw;
+}
+
+.room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 10px 0px;
+  gap: 5px;
+}
+
+.rooms::-webkit-scrollbar {
+  width: 3px;
+  border-radius: 5px;
+  margin: 5px;
+  height: 3px;
+}
+
+.rooms::-webkit-scrollbar-thumb {
+  background-color: var(--color4);
+  border-radius: 5px;
+}
+
+.rooms.dark::-webkit-scrollbar-thumb {
+  background-color: var(--dark-color4);
+}
+
+.rooms::-webkit-scrollbar-button,
+.rooms::-webkit-scrollbar-corner {
+  display: none;
+}
+
+.room > span {
+  width: fit-content;
+}
+
+.show--rooms.dark > h2 {
+  color: var(--dark-color4);
+}
+
+.show--rooms.dark {
+  color: var(--dark-color3);
+}
+
+.open--btn {
+  font-size: inherit;
+  background-color: var(--color2);
+  border: none;
+  outline: none;
+  font-size: 1.25em;
+  color: var(--color3);
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background 0.2s ease-in-out;
+  transition: color 0.2s ease-in-out;
+}
+
+.create-find-room {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  width: 80vw;
+  color: var(--color4);
+  gap: 10px;
+}
+
+.input--text--wrapper {
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+
+.input--text--wrapper > input {
+  width: 50%;
+}
+
+.search--btn {
+  border: 2px solid rgb(128, 128, 128);
+  border-left: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.search--btn:hover{
+  cursor: pointer;
+}
+
+.search--btn.dark {
+  background-color: var(--dark-color3);
+  border: none;
+}
+
+fieldset {
+  margin: 10px;
+  border: 2px solid var(--dark-color1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border-radius: 2px;
+}
+
+fieldset.dark {
+  color: var(--dark-color4);
+  border-color: var(--dark-color3);
+}
+
+label {
+  margin: 0px 15px 0px 0px;
+}
+
+.search {
+  border: 2px solid rgb(128, 128, 128) !important;
+  border-right: none !important;
+}
+
+.search.dark {
+  border: none !important;
 }
 
 main {
@@ -232,7 +388,7 @@ form {
   z-index: 2;
 }
 
-form > input {
+input[type="text"] {
   border: none;
   outline: none;
   font-size: 1em;
@@ -243,12 +399,8 @@ form > input {
   transition: background 0.2s ease-in-out;
 }
 
-form > input.dark {
+input[type="text"].dark {
   background-color: var(--dark-color3);
-}
-
-form > input ::placeholder {
-  color: var(--color3);
 }
 
 .btn-submit {
@@ -290,3 +442,8 @@ footer.dark {
   color: var(--dark-color2);
 }
 
+@media only screen and (max-width: 500px) {
+  html {
+    font-size: 50%;
+  }
+}
