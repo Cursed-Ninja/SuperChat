@@ -114,10 +114,12 @@ function DisplayRooms(props) {
   const [roomRef, setRoomRef] = useState(null);
   const [privateRoom, setPrivateRoom] = useState(false);
   const [roomID, setRoomID] = useState("");
+  const [allRooms, allLoading, allError, allSnapshot] =
+    useCollectionData(roomsRef);
 
-  useEffect(() => {}, [publicLoading, privateLoading]);
+  useEffect(() => {}, [publicLoading, privateLoading, allLoading]);
 
-  if (publicLoading || privateLoading) {
+  if (publicLoading || privateLoading || allLoading) {
     return <div>Loading...</div>;
   }
 
@@ -127,7 +129,7 @@ function DisplayRooms(props) {
 
   const publicRoomIDs = publicSnapshot.docs.map((Snapshot) => Snapshot.id);
   const privateRoomIDs = privateSnapshot.docs.map((Snapshot) => Snapshot.id);
-
+  const allRoomIDs = allSnapshot.docs.map((Snapshot) => Snapshot.id);
   const publicRoomsList = publicRooms.map((room, index) => {
     return (
       <Room
@@ -257,10 +259,7 @@ function DisplayRooms(props) {
                 }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter") {
-                    if (
-                      privateRoomIDs.includes(roomID) ||
-                      publicRoomIDs.includes(roomID)
-                    ) {
+                    if (allRoomIDs.includes(roomID)) {
                       setRoomRef({ id: roomID });
                       setRoomPresent(true);
                     } else alert("Room not present");
@@ -270,10 +269,7 @@ function DisplayRooms(props) {
               <button
                 className={`${props.darkMode ? "dark" : ""} search--btn`}
                 onClick={() => {
-                  if (
-                    privateRoomIDs.includes(roomID) ||
-                    publicRoomIDs.includes(roomID)
-                  ) {
+                  if (allRoomIDs.includes(roomID)) {
                     setRoomRef({ id: roomID });
                     setRoomPresent(true);
                   } else alert("Room not present");
@@ -289,6 +285,19 @@ function DisplayRooms(props) {
       )}
     </>
   );
+}
+
+function Check(roomID, roomsRef) {
+  const query = roomsRef.where(
+    firebase.firestore.FieldPath.documentId(),
+    "==",
+    roomID
+  );
+  const [res, loading, error] = useCollectionData(query);
+  useEffect(() => {}, [loading]);
+  if (!loading) {
+    return res;
+  }
 }
 
 function Room(props) {
