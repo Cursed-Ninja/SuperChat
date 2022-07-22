@@ -51,7 +51,7 @@ function App() {
       </header>
       <section className={darkMode ? "dark" : ""}>
         {user ? (
-          <ChatRoom darkMode={darkMode} />
+          <DisplayRooms darkMode={darkMode} />
         ) : (
           <Login darkMode={darkMode} />
         )}
@@ -99,12 +99,153 @@ function Logout(props) {
   );
 }
 
+function DisplayRooms(props) {
+  const roomsRef = firestore.collection("rooms");
+  const publicQuery = roomsRef.where("isPrivate", "==", false);
+  const [publicRooms, publicLoading, publicError, publicSnapshot] =
+    useCollectionData(publicQuery);
+  const privateQuery = roomsRef
+    .where("isPrivate", "==", true)
+    .where("createdBy", "==", auth.currentUser.uid);
+  const [privateRooms, privateLoading, privateError, privateSnapshot] =
+    useCollectionData(privateQuery);
+  const [roomName, setRoomName] = useState("");
+  const [roomPresent, setRoomPresent] = useState(false);
+  const [roomRef, setRoomRef] = useState(null);
+  const [privateRoom, setPrivateRoom] = useState(false);
+  const [roomID, setRoomID] = useState("");
+
+  useEffect(() => {}, [publicLoading, privateLoading]);
+
+  if (publicLoading || privateLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (publicError || privateError) {
+    return <div>Error!</div>;
+  }
+
+  const publicRoomIDs = publicSnapshot.docs.map((Snapshot) => Snapshot.id);
+  const privateRoomIDs = privateSnapshot.docs.map((Snapshot) => Snapshot.id);
+
+  const publicRoomsList = publicRooms.map((room, index) => {
+    return (
+      <Room room={room} roomId={publicRoomIDs[index]} key={`public-${index}`} />
+    );
+  });
+
+  const privateRoomsList = privateRooms.map((room, index) => {
+    return (
+      <Room
+        room={room}
+        roomId={privateRoomIDs[index]}
+        key={`private-${index}`}
+      />
+    );
+  });
+
+  return (
+    <>
+      {!roomPresent ? (
+        <div className="wrapper">
+          <div className="show--public--rooms">
+            <h2>Public Rooms</h2>
+            <div className="rooms">{publicRoomsList}</div>
+          </div>
+          <div className="show--private--rooms">
+            <h2>Private Rooms</h2>
+            <div className="rooms">{privateRoomsList}</div>
+          </div>
+          <div className="create--room">
+            <fieldset>
+              <legend>Room Type</legend>
+              <input
+                type="radio"
+                id="public"
+                name="room-type"
+                value="public"
+                checked={!privateRoom}
+                onChange={(e) => {
+                  setPrivateRoom(false);
+                }}
+              />
+              <label htmlFor="public">Public</label>
+              <input
+                type="radio"
+                id="private"
+                name="room-type"
+                value="private"
+                checked={privateRoom}
+                onChange={(e) => {
+                  setPrivateRoom(true);
+                }}
+              />
+              <label htmlFor="private">Private</label>
+            </fieldset>
+
+            <input
+              type="text"
+              placeholder="Create a room"
+              value={roomName}
+              onChange={(e) => {
+                setRoomName(e.target.value);
+              }}
+              onKeyDown={async (e) => {
+                if (e.key === "Enter") {
+                  const Ref = await roomsRef.add({
+                    name: roomName,
+                    createdBy: auth.currentUser.uid,
+                    isPrivate: privateRoom,
+                  });
+
+                  setRoomRef(Ref);
+                  setRoomPresent(true);
+                  setRoomName("");
+                }
+              }}
+            />
+
+            <input
+              type="text"
+              placeholder="Enter room ID"
+              value={roomID}
+              onChange={(e) => {
+                setRoomID(e.target.value);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  if (
+                    privateRoomIDs.includes(roomID) ||
+                    publicRoomIDs.includes(roomID)
+                  ) {
+                    setRoomRef({ id: roomID });
+                    setRoomPresent(true);
+                  } else alert("Room not present");
+                }
+              }}
+            />
+          </div>
+        </div>
+      ) : (
+        <ChatRoom room={roomRef.id} darkMode={props.darkMode} />
+      )}
+    </>
+  );
+}
+
+function Room(props) {
+  return (
+    <div className="room">
+      {props.room.name} {props.roomId}
+    </div>
+  );
+}
+
 function ChatRoom(props) {
   const dummy = useRef();
   //refers to the messages in firebase
-  const messagesRef = firestore.collection("messages");
+  const messagesRef = firestore.collection(`rooms/${props.room}/messages`);
   //makes a query to extract most recent 25 messages
-
   const query = messagesRef.orderBy("createdAt", "desc").limit(25);
 
   //Listens to any update to the data in firebase

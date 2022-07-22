@@ -154,6 +154,11 @@ section.dark {
   margin-right: 4px;
 }
 
+.wrapper{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 main {
   height: 100%;
   width: 100%;
@@ -284,3 +289,4 @@ footer.dark {
   background-color: var(--dark-color4);
   color: var(--dark-color2);
 }
+
