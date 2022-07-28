@@ -22,9 +22,10 @@ body {
   height: 100vh;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow-y: auto;
   transition: background-color 0.2s ease-in-out;
-  padding: 10px 0px;
+  padding: 3vh;
 }
 
 .App.light {
