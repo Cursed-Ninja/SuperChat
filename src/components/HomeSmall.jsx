@@ -159,6 +159,10 @@ function Login() {
         <GoogleIcon className="icon" sx={{ fontSize: "1em" }} />
         <b>Login With Google</b>
       </button>
+      <div>
+        <span>PS: Authentication is done by Google.</span>
+        <span>I can't access your password.</span>
+      </div>
     </div>
   );
 }

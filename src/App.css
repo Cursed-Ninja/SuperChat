@@ -304,6 +304,11 @@ body {
 
 .login {
   margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .login > button {
@@ -328,6 +333,21 @@ body {
 
 .login > button > svg {
   margin-right: 12px;
+}
+
+.login  span {
+  color: white;
+}
+
+.login.light span {
+  color: #000000;
+}
+
+.login > div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .create-room-overlay {
