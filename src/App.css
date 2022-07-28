@@ -20,11 +20,9 @@ body {
 .App {
   background-color: var(--dark-color-1);
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: auto;
   transition: background-color 0.2s ease-in-out;
+  position: relative;
 }
 
 .App.light {
@@ -32,6 +30,10 @@ body {
 }
 
 .content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: auto;
   max-width: 1200px;
   height: 100%;
