@@ -23,9 +23,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: auto;
+  overflow: auto;
   transition: background-color 0.2s ease-in-out;
-  padding: 3vh;
 }
 
 .App.light {
@@ -42,7 +41,6 @@ body {
   grid-template-columns: 350px 1fr;
   background-color: var(--dark-color-2);
   padding: 0;
-  overflow: hidden;
   transition: background-color 0.2s ease-in-out;
 }
 
@@ -244,16 +242,18 @@ body {
 }
 
 .rooms {
-  overflow-y: scroll;
+  overflow: auto;
   padding: 0px 0px 3px 0px;
 }
 
+.content::-webkit-scrollbar,
 .App::-webkit-scrollbar,
 .rooms::-webkit-scrollbar,
 .roomview-content-chatroom > main::-webkit-scrollbar {
   width: 2px;
 }
 
+.content::-webkit-scrollbar-thumb,
 .App::-webkit-scrollbar-thumb,
 .rooms::-webkit-scrollbar-thumb,
 .roomview-content-chatroom > main::-webkit-scrollbar-thumb {
