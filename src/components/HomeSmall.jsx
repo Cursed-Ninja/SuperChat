@@ -500,7 +500,9 @@ function RoomView(props) {
       await roomsRef.doc(roomRef.id).delete();
       props.setRoomRef(null);
     } else {
-      alert("unauthorized to delete room");
+      alert(
+        "Unauthorized to delete room. You can only delete your own private rooms"
+      );
     }
   }
 
