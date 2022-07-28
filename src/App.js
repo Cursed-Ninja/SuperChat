@@ -11,6 +11,7 @@ function App() {
   const [layout, setLayout] = useState(
     window.innerWidth < 600 ? "Mobile" : "Desktop"
   );
+  const [height, setHeight] = useState(window.innerHeight);
 
   useEffect(() => {
     const handleResize = () => {
@@ -19,6 +20,7 @@ function App() {
       } else {
         setLayout("Desktop");
       }
+      setHeight(window.innerHeight);
     };
 
     window.addEventListener("resize", handleResize);
@@ -29,7 +31,10 @@ function App() {
   return (
     <isLightModeContext.Provider value={isLightMode}>
       <setIsLightModeContext.Provider value={setIsLightMode}>
-        <div className={`App ${isLightMode ? "light" : ""}`}>
+        <div
+          className={`App ${isLightMode ? "light" : ""}`}
+          style={{ height: height }}
+        >
           {layout === "Desktop" ? <HomeLarge /> : <HomeSmall />}
         </div>
       </setIsLightModeContext.Provider>
