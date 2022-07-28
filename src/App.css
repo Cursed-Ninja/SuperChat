@@ -18,12 +18,11 @@ body {
 }
 
 .App {
-  display: flex;
-  justify-content: center;
   background-color: var(--dark-color-1);
   height: 100vh;
-  overflow-x: auto;
-  flex-direction: column;
+  display: flex;
+  align-items: center;
+  overflow-y: auto;
   transition: background-color 0.2s ease-in-out;
   padding: 10px 0px;
 }
@@ -33,13 +32,13 @@ body {
 }
 
 .content {
+  margin: auto;
   max-width: 1200px;
   height: 100%;
   max-height: 700px;
   min-height: 265px;
   display: grid;
   grid-template-columns: 350px 1fr;
-  margin: auto;
   background-color: var(--dark-color-2);
   padding: 0;
   overflow: hidden;
@@ -248,17 +247,20 @@ body {
   padding: 0px 0px 3px 0px;
 }
 
+.App::-webkit-scrollbar,
 .rooms::-webkit-scrollbar,
 .roomview-content-chatroom > main::-webkit-scrollbar {
   width: 2px;
 }
 
+.App::-webkit-scrollbar-thumb,
 .rooms::-webkit-scrollbar-thumb,
 .roomview-content-chatroom > main::-webkit-scrollbar-thumb {
   background-color: #3f3f3f;
   transition: background-color 0.2s linear;
 }
 
+.App.light::-webkit-scrollbar-thumb,
 .rooms.light::-webkit-scrollbar-thumb,
 .roomview-content-chatroom.light > main::-webkit-scrollbar-thumb {
   background-color: #000000;
