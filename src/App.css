@@ -23,6 +23,7 @@ body {
   overflow: auto;
   transition: background-color 0.2s ease-in-out;
   position: relative;
+  display: flex;
 }
 
 .App.light {
@@ -572,5 +573,9 @@ body {
 @media screen and (max-width: 600px) {
   .main-content {
     width: 100%;
+  }
+
+  .content {
+    grid-template-columns: 350px;
   }
 }
