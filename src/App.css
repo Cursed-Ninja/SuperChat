@@ -1,38 +1,573 @@
+:root {
+  --light-color-1: #3f0071;
+  --light-color-2: #ffffff;
+  --light-color-3: #eaf6f6;
+  --light-color-4: #ff0063;
+  --dark-color-1: #131212;
+  --dark-color-2: #1e1e1e;
+  --dark-color-3: #3f0071;
+  --dark-color-4: #610094;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  background-color: var(--dark-color-1);
+  height: 100vh;
+  overflow-x: auto;
+  flex-direction: column;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App.light {
+  background-color: var(--light-color-3);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.content {
+  max-width: 1200px;
+  height: 100%;
+  max-height: 700px;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  margin: auto;
+  background-color: var(--dark-color-2);
+  padding: 0;
+  overflow: hidden;
+  transition: background-color 0.2s ease-in-out;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.content.light {
+  background-color: var(--light-color-2);
+}
+
+.side-bar {
+  background-color: var(--dark-color-2);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 0;
+  flex-shrink: 1;
+  height: 100%;
+  max-height: inherit;
+  min-height: 0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.side-bar.light {
+  background-color: var(--light-color-2);
+}
+
+.loader {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  align-items: center;
+  height: 100vh;
+}
+
+.side-bar-header {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  padding: 3px 0px;
+  background-color: var(--dark-color-3);
+  margin: 0;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.side-bar-header.light {
+  background-color: var(--light-color-1);
+}
+
+.side-bar-header > img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.side-bar-header > button {
+  outline: none;
+  color: #ffffff;
+  border: none;
+  background-color: transparent;
+  transition: color 0.2s ease-in-out;
+}
+
+.side-bar-header > button:hover {
+  cursor: pointer;
+}
+
+.theme-switcher {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.theme-switcher > input[type="checkbox"] {
+  opacity: 0;
+}
+
+.theme-switcher > label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: var(--dark-color-1);
+  position: relative;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.theme-switcher.light > label {
+  background-color: var(--light-color-4);
+}
+
+.ball {
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  border-radius: 50%;
+  transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .label .ball {
+  transform: translateX(30px);
+}
+
+.input {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  border-top: 2px solid #3f3f3f;
+  border-bottom: 2px solid #3f3f3f;
+  position: relative;
+  transition: border 0.2s ease-in-out;
+}
+
+.input.light {
+  border-color: #000000;
+}
+
+.input > button {
+  padding: 5px 10px;
+  border: 2px solid #000000;
+  border-right: none;
+  outline: none;
+  background: white;
+  border-radius: 7px 0px 0px 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border 0.2s ease-in-out;
+}
+
+.input > button:hover {
+  cursor: pointer;
+}
+
+.input > input {
+  width: 75%;
+  outline: none;
+  border: 2px solid #000000;
+  border-left: none;
+  margin-left: -2px;
+  border-radius: 0px 7px 7px 0px;
+  transition: border 0.2s ease-in-out;
+}
+
+.info {
+  position: absolute;
+  right: 40px;
+  top: 14px;
+}
+
+.info:hover {
+  cursor: pointer;
+}
+
+.room-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.room-options > button {
+  outline: none;
+  border: none;
+  padding: 4px;
+  background-color: #ffffff;
+  transition: background-color 0.2s linear;
+}
+
+.room-options > button:hover {
+  cursor: pointer;
+}
+
+.room-options > button:nth-child(1) {
+  border-right: 1px solid #3f3f3f;
+}
+
+.room-options.light > button:nth-child(1) {
+  border-left: 1px solid #000000;
+}
+
+.room-options > button:nth-child(2) {
+  border-left: 1px solid #3f3f3f;
+}
+
+.room-options.light > button:nth-child(2) {
+  border-left: 1px solid #000000;
+}
+
+.room-options > button.active {
+  background-color: var(--dark-color-3);
+  color: #ffffff;
+  transition: background-color 0.2s linear;
+}
+
+.room-options.light > button.active {
+  background-color: var(--light-color-1);
+}
+
+.rooms {
+  overflow-y: scroll;
+  padding: 0px 0px 3px 0px;
+}
+
+.rooms::-webkit-scrollbar,
+.roomview-content-chatroom > main::-webkit-scrollbar {
+  width: 2px;
+}
+
+.rooms::-webkit-scrollbar-thumb,
+.roomview-content-chatroom > main::-webkit-scrollbar-thumb {
+  background-color: #3f3f3f;
+  transition: background-color 0.2s linear;
+}
+
+.rooms.light::-webkit-scrollbar-thumb,
+.roomview-content-chatroom.light > main::-webkit-scrollbar-thumb {
+  background-color: #000000;
+}
+
+.room,
+.create-room-card,
+.no-result-found {
+  padding: 12px;
+  font-size: 1.25em;
+  color: white;
+  border-bottom: 1px solid #3f3f3f;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: color 0.2s linear;
+  transition: border 0.2s linear;
+}
+
+.room.light,
+.create-room-card.light,
+.no-result-found.light {
+  color: #000000;
+  border-color: #000000;
+}
+
+.room:hover,
+.create-room-card:hover {
+  cursor: pointer;
+  box-shadow: 0px 2px 2px #3f3f3f;
+}
+
+.room.light:hover,
+.create-room-card.light:hover {
+  box-shadow: 0px 2px 2px #000000;
+}
+
+.create-room-card {
+  justify-content: center;
+  gap: 15px;
+}
+
+.login {
+  margin: auto;
+}
+
+.login > button {
+  outline: none;
+  border: none;
+  padding: 7px 10px;
+  border-radius: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25em;
+}
+
+.login.light > button {
+  background-color: var(--light-color-1);
+  color: #ffffff;
+}
+
+.login > button:hover {
+  cursor: pointer;
+}
+
+.login > button > svg {
+  margin-right: 12px;
+}
+
+.create-room-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparent;
+  backdrop-filter: blur(3px);
+  transition: 0.2s;
+  opacity: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.create-room-overlay:hover {
+  cursor: default;
+}
+
+.create-room-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 1;
+}
+
+.create-room-overlay-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px;
+  background-color: var(--dark-color-3);
+  border-radius: 15px;
+  min-height: 200px;
+  pointer-events: all;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.create-room-overlay-content > div {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  padding: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.create-room-overlay-content > div > .info {
+  position: absolute;
+  top: 3px;
+  left: 16px;
+  color: var(--dark-color-3);
+}
+
+.create-room-overlay-content > div > input[type="text"] {
+  padding: 8px 30px;
+  width: 75%;
+  border: none;
+  outline: none;
+}
+
+.create-room-overlay-content > div > button {
+  border: none;
+  outline: none;
+  background-color: white;
+  margin-left: -2px;
+  color: var(--dark-color-3);
+}
+
+.create-room-overlay-content > div > button:hover {
+  cursor: pointer;
+}
+
+.create-room-overlay-content > fieldset {
+  border: 2px solid white;
+  width: 100%;
+}
+
+.create-room-overlay-content > fieldset > label {
+  cursor: pointer;
+  margin: 12px;
+}
+
+.create-room-overlay-content > fieldset > input[type="radio"] {
+  outline: none;
+  cursor: pointer;
+}
+
+.main-content {
+  border-left: 2px solid #3f3f3f;
+  width: 40vw;
+  min-width: 200px;
+  height: 100%;
+  max-height: inherit;
+  min-height: 0;
+  display: flex;
+}
+
+.about {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white;
+  padding: 50px;
+}
+
+.about.light {
+  color: #000000;
+}
+
+.roomview {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding: 0;
+  height: 100%;
+  max-height: inherit;
+  min-height: 0;
+  flex: 1 1 auto;
+  align-self: stretch;
+}
+
+.roomview-content {
+  height: 100%;
+  max-height: inherit;
+  min-height: 0px;
+  display: flex;
+  flex-direction: column;
+}
+
+.roomview-content-chatroom {
+  height: 100%;
+  max-height: inherit;
+  min-height: 0px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.about > p,
+.about > h2 {
+  text-align: center;
+}
+
+.roomview-header {
+  font-size: 1em;
+  padding: 0px 15px;
+  flex: 0 0 46px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--dark-color-3);
+  margin: 0;
+  gap: 15px;
+  color: white;
+}
+
+.roomview-header-icon:hover {
+  cursor: pointer;
+}
+
+.roomview-content-chatroom > form {
+  display: flex;
+  width: 100%;
+}
+
+.roomview-content-chatroom > form > input {
+  width: 75%;
+  border: none;
+  outline: none;
+  padding: 5px 12px;
+  flex: 1 1 auto;
+}
+
+.roomview-content-chatroom.light > form > input {
+  border: 2px solid #000000;
+  border-right: none;
+  border-left: none;
+}
+
+.roomview-content-chatroom > form > button {
+  background: white;
+  outline: none;
+  border: none;
+  margin-left: -2px;
+}
+
+.roomview-content-chatroom.light > form > button {
+  border: 2px solid #000000;
+  border-left: none;
+}
+
+.roomview-content-chatroom > form > button:hover {
+  cursor: pointer;
+}
+
+.roomview-content-chatroom > form > button:disabled {
+  cursor: not-allowed;
+}
+
+.roomview-content-chatroom > main {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 20px;
+  overflow-y: auto;
+  min-height: 0;
+  height: inherit;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  color: white;
+  transition: color 0.2s linear;
+}
+
+.message.light {
+  color: #000000;
+}
+
+.message > img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.sent {
+  align-self: flex-end;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+@media screen and (max-width: 600px) {
+  .main-content {
+    width: 100%;
   }
 }
